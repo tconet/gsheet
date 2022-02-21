@@ -7,6 +7,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,9 @@ public class SalesController {
 			@RequestParam("name") String name,
 			@RequestParam("gram") int gram) {
 		
-		Protein protein = proteinRepository.findOneByNameAndGram(name.toUpperCase(), gram);
+		name = name.toUpperCase();
+		name = StringUtils.stripAccents(name);
+		Protein protein = proteinRepository.findOneByNameAndGram(name, gram);
 		
 		if ( protein == null )
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
