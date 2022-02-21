@@ -55,7 +55,7 @@ public class SalesController {
 			@RequestParam("name") String name,
 			@RequestParam("gram") int gram) {
 		
-		Protein protein = proteinRepository.findOneByNameAndGram(name, gram);
+		Protein protein = proteinRepository.findOneByNameAndGram(name.toUpperCase(), gram);
 		
 		if ( protein == null )
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
