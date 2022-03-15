@@ -24,6 +24,8 @@ import com.sheet.repository.ProteinRepository;
 import com.sheet.services.SalesService;
 import com.sheet.services.SheetService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 public class SalesController {
 	
@@ -68,8 +70,9 @@ public class SalesController {
 	}
 	
 	@PostMapping("/updatePrice")
-	public void updateProductsPrice() throws IOException, GeneralSecurityException {
+	public ResponseEntity<String> updateProductsPrice() throws IOException, GeneralSecurityException {
 		this.sheetService.UpdateProductsValue();
+		return ResponseEntity.ok("Preços Atualizados!");
 	}
 	
 	@GetMapping("/sales")
@@ -82,7 +85,8 @@ public class SalesController {
 							(ProteinDTO.convertToDto(proteins, mapper), HttpStatus.OK); 
 	}
 	
-	@PostMapping("/updateSalesFile")
+	@Operation(summary = "Carregar o arquivo de vendas")
+	@PostMapping(value = "/updateSalesFile", consumes = {"multipart/form-data"})
 	public ResponseEntity<String> updateSalesFile(@RequestParam("file") MultipartFile file) throws IOException, GeneralSecurityException {
 
 		ArrayList<String> sales = new ArrayList<>();
